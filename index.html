@@ -1,21 +1,402 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>中井平蔵 | ポートフォリオ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - 研究者・エンジニア</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 0;
+            color: white;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-top: -50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section {
+            padding: 60px 40px;
+        }
+
+        .section:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .strengths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .strength-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .strength-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .strength-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .strength-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .achievement {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .achievement h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+
+        .timeline-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .skill-tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 500;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .contact {
+            text-align: center;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 60px 40px;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .section {
+                padding: 40px 20px;
+            }
+            
+            .strengths-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
-  <h1>中井平蔵</h1>
-  <p>早稲田大学先進理工学部卒業｜VR × 心理 × テクノロジー</p>
-  <h2>研究</h2>
-  <ul>
-    <li>反実仮想画像の生成とセグメンテーションを用いたXAI手法</li>
-    <li>パニック障害・広場恐怖症に対するVR曝露療法</li>
-  </ul>
-  <h2>スキル</h2>
-  <ul>
-    <li>Python, C言語, HTML/CSS, Unity(C#)</li>
-    <li>Git, Notion, LaTeX</li>
-  </ul>
+    <div class="container">
+        <header>
+            <div class="profile-image">研</div>
+            <h1>Portfolio</h1>
+            <p class="subtitle">研究者・エンジニア・イノベーター</p>
+        </header>
+
+        <div class="main-content">
+            <section class="section fade-in">
+                <h2 class="section-title">私の3つの強み</h2>
+                <div class="strengths-grid">
+                    <div class="strength-card">
+                        <div class="strength-icon">🔍</div>
+                        <div class="strength-title">旺盛な知的好奇心</div>
+                        <p>未知の領域に対する探究心と学習意欲。新しい技術や概念を理解することに情熱を注ぎ、常に知識の幅を広げ続けています。</p>
+                    </div>
+                    <div class="strength-card">
+                        <div class="strength-icon">💪</div>
+                        <div class="strength-title">卓越した粘り強さ</div>
+                        <p>困難な課題に直面しても諦めない継続力。競技縄跳びで三重跳び連続168回の記録樹立に象徴される、目標達成への強い意志。</p>
+                    </div>
+                    <div class="strength-card">
+                        <div class="strength-icon">⚡</div>
+                        <div class="strength-title">不満足力</div>
+                        <p>現状に満足せず、より良い解決策を追求する姿勢。建設的な不満を原動力に、革新的なアイデアと価値を創出し続けています。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section fade-in">
+                <h2 class="section-title">主要な実績</h2>
+                
+                <div class="achievement">
+                    <h3>🏆 SSH生徒研究発表会 全国1位・2位</h3>
+                    <p>高校3年生時、数学・情報部門で全国1位、全分野総合で全国2位を獲得。自らの着想をもとに研究を主導し、チームリーダーとして成果を挙げました。</p>
+                </div>
+
+                <div class="achievement">
+                    <h3>🥇 競技縄跳び 全日本優勝</h3>
+                    <p>三重跳び連続168回の記録を樹立し、全日本選手権で優勝。一つのことを徹底的に極める粘り強さの証明です。</p>
+                </div>
+
+                <div class="achievement">
+                    <h3>💻 42Tokyo 合格（合格率4%）</h3>
+                    <p>3週間の試験期間中、1日12時間のコーディングに没頭し、難関校42Tokyoへの合格を果たしました。入学後は受験生の指導も担当。</p>
+                </div>
+            </section>
+
+            <section class="section fade-in">
+                <h2 class="section-title">学習・成長の軌跡</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-title">高校時代 - 研究活動の始まり</div>
+                        <p>SSH生徒研究発表会での全国上位入賞を通じて、「答えを探し続けること」の楽しさを発見。研究への道筋を見つけました。</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">大学1年次 - プログラミングとの出会い</div>
+                        <p>プログラミング授業で「コードを書いて物を作ること」と「プログラミングの仕組み」に強い興味を持ちました。</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">大学2年次 - 42Tokyo挑戦</div>
+                        <p>春休みを利用して42Tokyoの受験に挑戦。合格率4%の難関を突破し、さらなる技術力向上を図りました。</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">現在 - イノベーション創出</div>
+                        <p>寮の食券システム電子化プロジェクトを主導。利用データ分析によるフードロス削減システムを開発中です。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section fade-in">
+                <h2 class="section-title">技術スキル</h2>
+                <div class="skills">
+                    <span class="skill-tag">プログラミング</span>
+                    <span class="skill-tag">データ分析</span>
+                    <span class="skill-tag">システム設計</span>
+                    <span class="skill-tag">研究開発</span>
+                    <span class="skill-tag">チームリーダーシップ</span>
+                    <span class="skill-tag">問題解決</span>
+                    <span class="skill-tag">プロジェクト管理</span>
+                    <span class="skill-tag">イノベーション創出</span>
+                </div>
+            </section>
+
+            <section class="contact">
+                <h2>Let's Connect</h2>
+                <p>新しい挑戦と可能性を求めて。<br>一緒に未来を創造しませんか？</p>
+                <a href="#" class="contact-btn">お問い合わせ</a>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Fade in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add some interactive effects
+        document.querySelectorAll('.strength-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.background = 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.background = 'white';
+            });
+        });
+    </script>
 </body>
 </html>
