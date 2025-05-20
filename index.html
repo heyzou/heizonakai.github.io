@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - 研究者・エンジニア</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,334 +14,630 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-dark: #0a0a0a;
+            --secondary-dark: #1a1a1a;
+            --accent-purple: #7c3aed;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.1);
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            color: var(--text-primary);
+            background: var(--primary-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #0a0a0a, #1a1a1a, #0f0f23, #1a1a2e);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
 
-        header {
-            text-align: center;
-            padding: 80px 0;
-            color: white;
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 20px;
         }
 
-        .profile-image {
-            width: 150px;
-            height: 150px;
+        .nav-dot {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            margin: 0 auto 30px;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-glass);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-dot.active {
+            background: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+        }
+
+        /* Header */
+        header {
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
-            font-weight: bold;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        .profile-container {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .subtitle {
-            font-size: 1.2em;
-            opacity: 0.9;
-            margin-bottom: 30px;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 300;
         }
 
-        .main-content {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            overflow: hidden;
-            margin-top: -50px;
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
             position: relative;
-            z-index: 1;
+            overflow: hidden;
         }
 
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.3);
+        }
+
+        /* Sections */
         .section {
-            padding: 60px 40px;
+            min-height: 100vh;
+            padding: 100px 0;
+            display: flex;
+            align-items: center;
         }
 
-        .section:nth-child(even) {
-            background: #f8f9fa;
+        .section-content {
+            width: 100%;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .section-content.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .section-title {
-            font-size: 2.2em;
-            margin-bottom: 30px;
-            color: #2c3e50;
-            position: relative;
-            display: inline-block;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 60px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 2px;
-        }
-
+        /* Strengths Grid */
         .strengths-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
-            margin-top: 40px;
+            margin-top: 60px;
         }
 
         .strength-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-left: 5px solid #667eea;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-glass);
+            padding: 40px 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .strength-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .strength-card:hover::before {
+            transform: scaleX(1);
         }
 
         .strength-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
         .strength-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-            margin-bottom: 20px;
+            font-size: 3rem;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .strength-title {
-            font-size: 1.4em;
-            font-weight: bold;
+            font-size: 1.4rem;
+            font-weight: 600;
             margin-bottom: 15px;
-            color: #2c3e50;
+            color: var(--text-primary);
+        }
+
+        .strength-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Achievements */
+        .achievements-container {
+            display: grid;
+            gap: 30px;
+            margin-top: 60px;
         }
 
         .achievement {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-glass);
             padding: 40px;
-            border-radius: 15px;
-            margin: 30px 0;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            position: relative;
+            transition: all 0.4s ease;
         }
 
-        .achievement h3 {
-            font-size: 1.5em;
+        .achievement::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-purple), var(--accent-cyan));
+            border-radius: 0 20px 20px 0;
+        }
+
+        .achievement:hover {
+            transform: translateX(10px);
+        }
+
+        .achievement-title {
+            font-size: 1.3rem;
+            font-weight: 600;
             margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .achievement-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Timeline */
+        .timeline-container {
+            margin-top: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .timeline {
             position: relative;
-            padding-left: 30px;
+            padding-left: 40px;
         }
 
         .timeline::before {
             content: '';
             position: absolute;
-            left: 15px;
+            left: 20px;
             top: 0;
             bottom: 0;
             width: 2px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(180deg, var(--accent-purple), var(--accent-cyan));
         }
 
         .timeline-item {
             position: relative;
-            margin-bottom: 40px;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 50px;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-glass);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -38px;
-            top: 25px;
+            left: -50px;
+            top: 30px;
             width: 12px;
             height: 12px;
-            background: #667eea;
+            background: var(--accent-purple);
             border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 0 0 3px #667eea;
+            box-shadow: 0 0 0 4px var(--primary-dark), 0 0 0 6px var(--accent-purple);
+        }
+
+        .timeline-item:hover {
+            transform: translateX(20px);
         }
 
         .timeline-title {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: 600;
             margin-bottom: 10px;
+            color: var(--text-primary);
         }
 
-        .skills {
+        .timeline-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Skills */
+        .skills-container {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
-            margin-top: 30px;
+            justify-content: center;
+            margin-top: 60px;
         }
 
         .skill-tag {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-size: 0.9em;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 50px;
             font-weight: 500;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .skill-tag:hover::before {
+            left: 0;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-5px);
+            color: var(--text-primary);
+        }
+
+        /* Contact */
         .contact {
             text-align: center;
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 60px 40px;
-        }
-
-        .contact-btn {
-            display: inline-block;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px 30px;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-glass);
             border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 80px 40px;
+            backdrop-filter: blur(20px);
+            margin: 60px 0;
         }
 
-        .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        .contact h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
+        .contact p {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .container {
-                padding: 10px;
-            }
-            
-            h1 {
-                font-size: 2em;
+                padding: 0 15px;
             }
             
             .section {
-                padding: 40px 20px;
+                padding: 80px 0;
             }
             
             .strengths-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .timeline {
+                padding-left: 30px;
+            }
+            
+            nav {
+                display: none;
             }
         }
 
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        ::-webkit-scrollbar-track {
+            background: var(--primary-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-purple), var(--accent-cyan));
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="profile-image">研</div>
-            <h1>Portfolio</h1>
-            <p class="subtitle">研究者・エンジニア・イノベーター</p>
-        </header>
+    <div class="bg-animation"></div>
+    
+    <nav>
+        <div class="nav-dot active" data-section="0"></div>
+        <div class="nav-dot" data-section="1"></div>
+        <div class="nav-dot" data-section="2"></div>
+        <div class="nav-dot" data-section="3"></div>
+        <div class="nav-dot" data-section="4"></div>
+    </nav>
 
-        <div class="main-content">
-            <section class="section fade-in">
-                <h2 class="section-title">私の3つの強み</h2>
+    <header>
+        <div class="container">
+            <div class="hero-content">
+                <div class="profile-container">
+                    <div class="profile-image">研</div>
+                </div>
+                <h1>Portfolio</h1>
+                <p class="subtitle">研究者・エンジニア・イノベーター</p>
+                <a href="#strengths" class="cta-button">
+                    <span>探索を始める</span>
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="strengths" class="section">
+        <div class="container">
+            <div class="section-content">
+                <h2 class="section-title">Core Strengths</h2>
                 <div class="strengths-grid">
                     <div class="strength-card">
                         <div class="strength-icon">🔍</div>
                         <div class="strength-title">旺盛な知的好奇心</div>
-                        <p>未知の領域に対する探究心と学習意欲。新しい技術や概念を理解することに情熱を注ぎ、常に知識の幅を広げ続けています。</p>
+                        <div class="strength-description">未知の領域に対する探究心と学習意欲。新しい技術や概念を理解することに情熱を注ぎ、常に知識の幅を広げ続けています。</div>
                     </div>
                     <div class="strength-card">
                         <div class="strength-icon">💪</div>
                         <div class="strength-title">卓越した粘り強さ</div>
-                        <p>困難な課題に直面しても諦めない継続力。競技縄跳びで三重跳び連続168回の記録樹立に象徴される、目標達成への強い意志。</p>
+                        <div class="strength-description">困難な課題に直面しても諦めない継続力。競技縄跳びで三重跳び連続168回の記録樹立に象徴される、目標達成への強い意志。</div>
                     </div>
                     <div class="strength-card">
                         <div class="strength-icon">⚡</div>
                         <div class="strength-title">不満足力</div>
-                        <p>現状に満足せず、より良い解決策を追求する姿勢。建設的な不満を原動力に、革新的なアイデアと価値を創出し続けています。</p>
+                        <div class="strength-description">現状に満足せず、より良い解決策を追求する姿勢。建設的な不満を原動力に、革新的なアイデアと価値を創出し続けています。</div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
-            <section class="section fade-in">
-                <h2 class="section-title">主要な実績</h2>
-                
-                <div class="achievement">
-                    <h3>🏆 SSH生徒研究発表会 全国1位・2位</h3>
-                    <p>高校3年生時、数学・情報部門で全国1位、全分野総合で全国2位を獲得。自らの着想をもとに研究を主導し、チームリーダーとして成果を挙げました。</p>
-                </div>
-
-                <div class="achievement">
-                    <h3>🥇 競技縄跳び 全日本優勝</h3>
-                    <p>三重跳び連続168回の記録を樹立し、全日本選手権で優勝。一つのことを徹底的に極める粘り強さの証明です。</p>
-                </div>
-
-                <div class="achievement">
-                    <h3>💻 42Tokyo 合格（合格率4%）</h3>
-                    <p>3週間の試験期間中、1日12時間のコーディングに没頭し、難関校42Tokyoへの合格を果たしました。入学後は受験生の指導も担当。</p>
-                </div>
-            </section>
-
-            <section class="section fade-in">
-                <h2 class="section-title">学習・成長の軌跡</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-title">高校時代 - 研究活動の始まり</div>
-                        <p>SSH生徒研究発表会での全国上位入賞を通じて、「答えを探し続けること」の楽しさを発見。研究への道筋を見つけました。</p>
+    <section id="achievements" class="section">
+        <div class="container">
+            <div class="section-content">
+                <h2 class="section-title">Achievements</h2>
+                <div class="achievements-container">
+                    <div class="achievement">
+                        <div class="achievement-title">🏆 SSH生徒研究発表会 全国1位・2位</div>
+                        <div class="achievement-description">高校3年生時、数学・情報部門で全国1位、全分野総合で全国2位を獲得。自らの着想をもとに研究を主導し、チームリーダーとして成果を挙げました。</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-title">大学1年次 - プログラミングとの出会い</div>
-                        <p>プログラミング授業で「コードを書いて物を作ること」と「プログラミングの仕組み」に強い興味を持ちました。</p>
+                    <div class="achievement">
+                        <div class="achievement-title">🥇 競技縄跳び 全日本優勝</div>
+                        <div class="achievement-description">三重跳び連続168回の記録を樹立し、全日本選手権で優勝。一つのことを徹底的に極める粘り強さの証明です。</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-title">大学2年次 - 42Tokyo挑戦</div>
-                        <p>春休みを利用して42Tokyoの受験に挑戦。合格率4%の難関を突破し、さらなる技術力向上を図りました。</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-title">現在 - イノベーション創出</div>
-                        <p>寮の食券システム電子化プロジェクトを主導。利用データ分析によるフードロス削減システムを開発中です。</p>
+                    <div class="achievement">
+                        <div class="achievement-title">💻 42Tokyo 合格（合格率4%）</div>
+                        <div class="achievement-description">3週間の試験期間中、1日12時間のコーディングに没頭し、難関校42Tokyoへの合格を果たしました。入学後は受験生の指導も担当。</div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
-            <section class="section fade-in">
-                <h2 class="section-title">技術スキル</h2>
-                <div class="skills">
+    <section id="journey" class="section">
+        <div class="container">
+            <div class="section-content">
+                <h2 class="section-title">Journey</h2>
+                <div class="timeline-container">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-title">高校時代 - 研究活動の始まり</div>
+                            <div class="timeline-description">SSH生徒研究発表会での全国上位入賞を通じて、「答えを探し続けること」の楽しさを発見。研究への道筋を見つけました。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">大学1年次 - プログラミングとの出会い</div>
+                            <div class="timeline-description">プログラミング授業で「コードを書いて物を作ること」と「プログラミングの仕組み」に強い興味を持ちました。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">大学2年次 - 42Tokyo挑戦</div>
+                            <div class="timeline-description">春休みを利用して42Tokyoの受験に挑戦。合格率4%の難関を突破し、さらなる技術力向上を図りました。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">現在 - イノベーション創出</div>
+                            <div class="timeline-description">寮の食券システム電子化プロジェクトを主導。利用データ分析によるフードロス削減システムを開発中です。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <div class="container">
+            <div class="section-content">
+                <h2 class="section-title">Skills</h2>
+                <div class="skills-container">
                     <span class="skill-tag">プログラミング</span>
                     <span class="skill-tag">データ分析</span>
                     <span class="skill-tag">システム設計</span>
@@ -348,18 +647,21 @@
                     <span class="skill-tag">プロジェクト管理</span>
                     <span class="skill-tag">イノベーション創出</span>
                 </div>
-            </section>
-
-            <section class="contact">
-                <h2>Let's Connect</h2>
-                <p>新しい挑戦と可能性を求めて。<br>一緒に未来を創造しませんか？</p>
-                <a href="#" class="contact-btn">お問い合わせ</a>
-            </section>
+                
+                <div class="contact">
+                    <h2>Let's Connect</h2>
+                    <p>新しい挑戦と可能性を求めて。<br>一緒に未来を創造しませんか？</p>
+                    <a href="#" class="cta-button">
+                        <span>お問い合わせ</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
     <script>
-        // Fade in animation
+        // Intersection Observer for fade animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -100px 0px'
@@ -373,28 +675,67 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.fade-in').forEach(el => {
+        document.querySelectorAll('.section-content').forEach(el => {
             observer.observe(el);
         });
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // Navigation dots
+        const sections = document.querySelectorAll('.section');
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(sections).indexOf(entry.target);
+                    navDots.forEach(dot => dot.classList.remove('active'));
+                    if (navDots[index]) {
+                        navDots[index].classList.add('active');
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // Navigation dot clicks
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const targetSection = sections[index] || document.querySelector('header');
+                targetSection.scrollIntoView({ behavior: 'smooth' });
             });
         });
 
-        // Add some interactive effects
-        document.querySelectorAll('.strength-card').forEach(card => {
+        // Smooth scrolling for CTA buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Parallax effect for background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const background = document.querySelector('.bg-animation');
+            background.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Enhanced card interactions
+        document.querySelectorAll('.strength-card, .achievement, .timeline-item').forEach(card => {
             card.addEventListener('mouseenter', function() {
-                this.style.background = 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)';
+                this.style.transform = this.style.transform + ' scale(1.02)';
             });
             
             card.addEventListener('mouseleave', function() {
-                this.style.background = 'white';
+                this.style.transform = this.style.transform.replace(' scale(1.02)', '');
             });
         });
     </script>
